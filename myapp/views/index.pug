@@ -1,0 +1,198 @@
+extends layout
+
+block content
+  #container.row
+
+  script.
+    // 더미 자료
+    const category = ["willDo", "doing", "done"]
+    const List = [
+      {
+        pk: 1,
+        status: 1,
+        category: "willDo",
+        title: "에벱뻽ㅂ",
+        author: "nigayo",
+        index: 1,
+      },
+      {
+        pk: 2,
+        status: 1,
+        category: "willDo",
+        title: "멋사 과제",
+        author: "이소영",
+        index: 2,
+      },
+            {
+        pk: 3,
+        status: 2,
+        category: "doing",
+        title: "저녁먹기",
+        author: "이한주",
+        index: 3,
+      },
+
+            {
+        pk: 4,
+        status: 3,
+        category: "done",
+        title: "점심먹기",
+        author: "강단비",
+        index: 4,
+      }
+    ]
+
+
+    //받아온 리스트 매핑으로 html 내보내기
+    function colRendering(category, listLength) {
+      const col = category.map(onecol => `
+        <div id=${onecol} class="main-box col">
+        <div id="col-header" class="row">
+          <div id="col-header-left" class="row">
+            <div id="col-number">${listLength}</div>
+            <div id="col-title">${onecol}</div>
+          </div>
+          <div id="col-header-right" class="row">
+            <div id="col-header-plus" class="col-header-plus-${onecol}">
+              <button>+</button>
+            </div>
+            <div id="col-header-delete">
+              <button>x</button>
+            </div>
+          </div>
+        </div>
+        <div id="col-content-plus" class="row hidden col-content-plus-${onecol}">
+          <form action="">
+            <input type="text" placeholder="Enter a note"/>
+            <div id="col-content-plus-btn" class="row">
+              <button id="add-btn" disabled>Add</button>
+              <button id="cancel-btn" class="cancel-btn-${onecol}">Cancel</button> 
+            </div>
+          </form>
+        </div>
+        <div id="col-list" class="col-list-${onecol}">
+        </div>
+        </div>
+        `)
+      console.log('길이', listLength)
+      let colDom = col.join("")
+      document.getElementById("container").innerHTML = colDom
+    }
+
+
+    function cardRendering(list, category) {
+      let card = list.map(content => `
+        <div id="col-list-content" class="col">
+        <div id="col-list-top" class="row">
+          <div id="col-list-top-left" class="row">
+            <div id="col-list-ui">*</div>
+            <div id="col-list-title">${content.title}</div>
+          </div>
+          <div id="col-list-top-right">
+            <div id="col-list-delete">
+              <button> x </button>
+            </div>
+          </div>
+        </div>
+        <div id="col-list-bottom">
+          <div>Added by ${content.author}</div>
+        </div>
+        </div>
+      `)
+      let cardDom = card.join("")
+      document.querySelector(`.col-list-${category}`).innerHTML= cardDom
+    } 
+
+
+    for (let i = 0; i < category.length; i++) {
+        let categorizedList = List.filter((list) => list.category === category[i])
+        let listLength = categorizedList.length
+        // 카테고리에 맞는 컬럼을 만든다
+        colRendering(category, listLength)
+      }
+
+    for (let i = 0; i < category.length; i++) {
+        // 카테고리에 따라 리스트를 나눈다.
+        let categorizedList = List.filter((list) => list.category === category[i])
+
+        // 컬럼 안에 컨텐츠를 넣는다
+        cardRendering(categorizedList, category[i])
+      }
+
+
+
+
+
+    function plusButtonHandeler(plusButton, plusArea, plusButtonState){
+    plusButton.addEventListener("click", function (event) {
+
+      if (plusButtonState === false) {
+        plusArea.classList.remove("hidden")
+        plusButtonState = true
+      } else {
+        plusArea.classList.add("hidden")
+        plusButtonState = false
+      }
+    });
+    }
+    function cancelButtonHandeler(plusArea,cancelButton, plusButtonState){
+    cancelButton.addEventListener("click", function(event){
+        plusArea.classList.add("hidden")
+        plusButtonState = false
+    })
+    }
+    function textInputHandeler(){
+    //새글 작성 글자수
+    const text = document.querySelector("input");
+    const addButton = document.querySelector("#add-btn")
+
+    let inputValue = "";
+    let textLength = 0
+
+    function onkeydown(event) {
+      let textLength = 0
+      inputValue = event.target.value;
+      textLength = inputValue.length
+      if (textLength === 0) {
+        addButton.disabled = true
+        } else {
+        addButton.disabled = false
+        }
+      }
+    
+    text.addEventListener("keydown", onkeydown);
+    }
+
+
+    // 새 글 작성 버튼
+    for (let i = 0; i < category.length; i++) {
+      const plusButton = document.querySelector(`.col-header-plus-${category[i]}`)
+      const plusArea = document.querySelector(`.col-content-plus-${category[i]}`)
+      const cancelButton = document.querySelector(`.cancel-btn-${category[i]}`)
+      let plusButtonState = false
+
+      
+      plusButtonHandeler(plusButton, plusArea, plusButtonState)
+      cancelButtonHandeler(plusArea,cancelButton, plusButtonState )
+      textInputHandeler()
+    }
+
+
+    // todo 작성 후, submit 버튼 누르면 디비에 저장됨.
+    //- function submitHandler(event) {
+    //-   let variable = { 
+    //-     pk: willDoList.length,
+    //-     status: 1,
+    //-     title: inputValue,
+    //-     author: "아직 구현 못함",
+    //-     index: willDoList.length
+    //-   }
+    //-   List.push(variable)
+    //- }
+    //- console.log("글 목록",List)
+
+    //- addButton.addEventListener("click", submitHandler);
+
+
+
+    

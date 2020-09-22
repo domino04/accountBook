@@ -1,0 +1,102 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    #header.row
+      #header-left
+        #header-title TODO 서비스
+      #header-right
+        #header-menu menu
+    //- #header.row
+    //-   #header-left
+    //-     #logo
+    //-       img(src="https://thumb.mt.co.kr/06/2020/03/2020031617101693317_1.jpg", alt="로고")
+    //-   #header-right.row
+    //-     #icon-lan 언어선택
+    //-     #icon-mypage 마이페이지
+    //- #mypage-dropdown.col
+    //-   #mypage-register
+    //-     button(id="modal-register-button") 회원가입
+    //-     #modal-register.hidden
+    //-       #modal-register-overray
+    //-       #modal-register.content.col
+    //-         p 회원가입 하세요.
+    //-         form(action='/users' method='post')
+    //-           p
+    //-               input(type="text" name="username")
+    //-           p
+    //-               input(type="text" name='password')
+    //-           p
+    //-               input(type="submit" value="전송")
+    //-   #mypage-login
+    //-     button(id="modal-login-button") 로그인
+    //-     #modal-login.hidden
+    //-       #modal-login-overray
+    //-       #modal-login.content
+    //-         p 로그인 하세요.
+    //-         form(action='/users/login' method='post')
+    //-           p
+    //-               input(type="text" name="username")
+    //-           p
+    //-               input(type="text" name='password')
+    //-           p
+    //-               input(type="submit" value="전송")
+          
+    block content
+
+
+    script.
+      //- const mypage = document.querySelector('#icon-mypage')
+      //- const mypageDropdown = document.querySelector('#mypage-dropdown')      
+      //- let mypageDisplay = false
+
+      //- mypage.addEventListener("click", function (event) {
+      //-   if (mypageDisplay === true) {
+      //-     mypageDropdown.classList.remove('hidden')
+      //-     mypageDisplay = false
+      //-   } else {
+      //-     mypageDropdown.classList.add('hidden')
+      //-     mypageDisplay = true
+      //-   }
+      //- })
+    
+
+      //- console.log('로그인 상태', isAuth)
+      // 회원가입
+      //필요한 엘리먼트들을 선택한다.
+      //- const openRegisterButton = document.getElementById("modal-register-button");
+      //- const openLoginButton = document.getElementById("modal-login-button");
+
+      //- const modalRegister = document.querySelector("#modal-register");
+      //- const modalLogin = document.querySelector("#modal-login");
+      //- const overlay = modalRegister.querySelector("#modal-register-overray");
+      //- const closeRegisterButton = modalRegister.querySelector("#register-submit-button");
+      //- const closeLoginButton = modalLogin.querySelector("#login-submit-button");
+
+      //- //동작함수
+      //- const openModal = () => {
+      //-   modalRegister.classList.remove("hidden");
+      //- }
+      //- const closeModal = () => {
+      //-   modalRegister.classList.add("hidden");
+      //-   console.log("히히")
+      //- }
+      //- //클릭 이벤트
+      //- openRegisterButton.addEventListener("click",openModal)
+      //- closeRegisterButton.addEventListener("click",closeModal)
+      //- //- openRegisterButton.addEventListener("click", function(event) {
+      //- //-   modalRegister.classList.remove("hidden");
+      //- //-   modalDisplay = true
+      //- //- });
+      //- //- closeRegisterButton.addEventListener("click", function(event) {
+      //- //-   modalDisplay = false
+
+      //- //-   if (modalDisplay === false) {
+      //- //-     modalRegister.classList.add("hidden");
+      //- //-     console.log("히히")
+      //- //-   }
+      //- //- });
+
+      //- const coddknekfkdnfdknf
