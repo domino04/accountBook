@@ -254,12 +254,26 @@ p {
   align-items: flex-start;
 }
 #col-list-ui {
-  width: 15px;
+  width: 18px;
 }
 
 #col-content-plus {
   width: 100%;
   justify-content: center;
+}
+
+.col-content-plus-btn {
+  background-color: rgba(0, 0, 0, 0);
+  border-style: none;
+  border-radius: 2px;
+  padding: 0;
+}
+
+.deleteeee {
+  background-color: rgba(0, 0, 0, 0);
+  border-style: none;
+  border-radius: 2px;
+  padding: 0;
 }
 
 form {
@@ -276,6 +290,10 @@ input {
 
 button {
   text-decoration: none;
+}
+
+button:hover {
+  background-color: gray;
 }
 
 #col-content-plus-btn {
@@ -424,4 +442,8 @@ button {
 #edit-save {
   width: 150px;
   height: 50px;
+}
+
+.material-icons-outlined {
+  font-size: 16px;
 }

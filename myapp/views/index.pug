@@ -1,7 +1,8 @@
-ddoctype html
+doctype html
 html
   head
     title= title
+    link(href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp", rel="stylesheet")
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     #header.row
@@ -20,7 +21,9 @@ html
         #edit-top.row
           #edit-top-text Edit note
           #edit-top-cancel 
-            button#edit-cancel-btn x
+            button#edit-cancel-btn.deleteeee
+              span.material-icons close
+            
         #edit-bottom.col
           #edit-bottom-text Note
           #edit-bottom-input
@@ -79,10 +82,10 @@ html
             </div>
             <div id="col-header-right" class="row">
               <div id="col-header-plus" class="col-header-plus-${onecol}">
-                <button>+</button>
+                <button class="col-content-plus-btn"><span class="material-icons"> add </span></button>
               </div>
               <div id="col-header-delete">
-                <button>x</button>
+                <button class="deleteeee"><span class="material-icons"> close </span></button>
               </div>
             </div>
           </div>
@@ -109,7 +112,7 @@ html
         let card = list.map(content => `
           <div id="col-list-content" class="row card-${content.pk}">
             <div id="col-list-left" class="row">
-              <div id="col-list-ui">*</div>
+              <div id="col-list-ui"><span class="material-icons-outlined"> article </span></div>
               <div id="col-list-left-left">
                 <div id="col-list-title">${content.title}</div>
                 <div>Added by ${content.author}</div>
@@ -117,7 +120,7 @@ html
             </div>
             <div id="col-list-right>
               <div id="col-list-delete">
-                <button id="delete-${content.pk}"> x </button>
+                <button id="delete-${content.pk}" class="deleteeee"><span class="material-icons"> close </span></button>
               </div>
             </div>
           </div>
