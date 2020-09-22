@@ -1,205 +1,223 @@
-extends layout
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    #header.row
+      #header-left
+        #header-title TODO 서비스
+      #header-right
+        #header-menu menu
 
-block content
-  #container.row
-    #col-container.row
-    #add-col 
-      p +
+    #container.row
+      #col-container.row
+      #add-col 
+        p +
+    #edit-modal
+    #hi= AllList
 
 
-  script.
-    // 더미 자료
-    const category = ["willDo", "doing", "done", "new"]
-    const List = [
-      {
-        pk: 1,
-        status: 1,
-        category: "willDo",
-        title: "에벱뻽ㅂ",
-        author: "nigayo",
-        index: 1,
-      },
-      {
-        pk: 2,
-        status: 1,
-        category: "willDo",
-        title: "멋사 과제",
-        author: "이소영",
-        index: 2,
-      },
-            {
-        pk: 3,
-        status: 2,
-        category: "doing",
-        title: "저녁먹기",
-        author: "이한주",
-        index: 3,
-      },
+    script.
+      const category = ["willDo", "doing", "done", "new"];
+      const List = [
+        {
+          pk: 0,
+          status: 1,
+          category: "willDo",
+          title: "에벱뻽ㅂ",
+          author: "nigayo",
+          index: 1,
+        },
+        {
+          pk: 1,
+          status: 1,
+          category: "willDo",
+          title: "멋사 과제",
+          author: "이소영",
+          index: 2,
+        },
+        {
+          pk: 2,
+          status: 2,
+          category: "doing",
+          title: "저녁먹기",
+          author: "이한주",
+          index: 3,
+        },
 
-            {
-        pk: 4,
-        status: 3,
-        category: "done",
-        title: "점심먹기",
-        author: "강단비",
-        index: 4,
+        {
+          pk: 3,
+          status: 3,
+          category: "done",
+          title: "점심먹기",
+          author: "강단비",
+          index: 4,
+        },
+      ];
+
+      //받아온 리스트 매핑으로 html 내보내기
+      function colRendering(category) {
+        const col = category.map(onecol => `
+          <div id=${onecol} class="main-box col">
+          <div id="col-header" class="row">
+            <div id="col-header-left" class="row">
+              <div id="col-number" class="col-number-${onecol}"></div>
+              <div id="col-title">${onecol}</div>
+            </div>
+            <div id="col-header-right" class="row">
+              <div id="col-header-plus" class="col-header-plus-${onecol}">
+                <button>+</button>
+              </div>
+              <div id="col-header-delete">
+                <button>x</button>
+              </div>
+            </div>
+          </div>
+          <div id="col-content-plus" class="row hidden col-content-plus-${onecol}">
+            <form action="/todo" method="post">
+              <input class="input-${onecol}" type="text" placeholder="Enter a note"/>
+              <div id="col-content-plus-btn" class="row">
+                <button id="add-btn" class="add-btn-${onecol}" disabled>Add</button>
+                <button id="cancel-btn" class="cancel-btn-${onecol}">Cancel</button> 
+              </div>
+            </form>
+          </div>
+          <div id="col-list" class="col-list-${onecol}">
+          </div>
+          </div>
+          `)
+        
+        let colDom = col.join("")
+        document.getElementById("col-container").innerHTML = colDom
       }
-    ]
 
 
-    //받아온 리스트 매핑으로 html 내보내기
-    function colRendering(category) {
-      const col = category.map(onecol => `
-        <div id=${onecol} class="main-box col">
-        <div id="col-header" class="row">
-          <div id="col-header-left" class="row">
-            <div id="col-number" class="col-number-${onecol}"></div>
-            <div id="col-title">${onecol}</div>
-          </div>
-          <div id="col-header-right" class="row">
-            <div id="col-header-plus" class="col-header-plus-${onecol}">
-              <button>+</button>
+      function cardRendering(list, category) {
+        let card = list.map(content => `
+          <div id="col-list-content" class="col card-${content.pk}">
+          <div id="col-list-top" class="row">
+            <div id="col-list-top-left" class="row">
+              <div id="col-list-ui">*</div>
+              <div id="col-list-title">${content.title}</div>
             </div>
-            <div id="col-header-delete">
-              <button>x</button>
+            <div id="col-list-top-right">
+              <div id="col-list-delete">
+                <button id="delete-${content.pk}"> x </button>
+              </div>
             </div>
           </div>
-        </div>
-        <div id="col-content-plus" class="row hidden col-content-plus-${onecol}">
-          <form action="">
-            <input class="input-${onecol}" type="text" placeholder="Enter a note"/>
-            <div id="col-content-plus-btn" class="row">
-              <button id="add-btn" class="add-btn-${onecol}" disabled>Add</button>
-              <button id="cancel-btn" class="cancel-btn-${onecol}">Cancel</button> 
-            </div>
-          </form>
-        </div>
-        <div id="col-list" class="col-list-${onecol}">
-        </div>
-        </div>
+          <div id="col-list-bottom">
+            <div>Added by ${content.author}</div>
+          </div>
+          </div>
         `)
-      
-      let colDom = col.join("")
-      document.getElementById("col-container").innerHTML = colDom
-    }
+        let cardDom = card.join("")
+        document.querySelector(`.col-list-${category}`).innerHTML= cardDom
+      } 
 
 
-    function cardRendering(list, category) {
-      let card = list.map(content => `
-        <div id="col-list-content" class="col">
-        <div id="col-list-top" class="row">
-          <div id="col-list-top-left" class="row">
-            <div id="col-list-ui">*</div>
-            <div id="col-list-title">${content.title}</div>
-          </div>
-          <div id="col-list-top-right">
-            <div id="col-list-delete delete-${content.pk}">
-              <button> x </button>
-            </div>
-          </div>
-        </div>
-        <div id="col-list-bottom">
-          <div>Added by ${content.author}</div>
-        </div>
-        </div>
-      `)
-      let cardDom = card.join("")
-      document.querySelector(`.col-list-${category}`).innerHTML= cardDom
-    } 
+      // 카테고리에 맞는 컬럼을 만든다
+      colRendering(category)
 
-
-    // 카테고리에 맞는 컬럼을 만든다
-    colRendering(category)
-
-    // 컬럼 안을 채워준다
-    for (let i = 0; i < category.length; i++) {
-        // 카테고리에 따라 리스트를 나눈다.
-        let categorizedList = List.filter((list) => list.category === category[i])
-        // 카테고리별 카드 갯수를 정의하고 html에 넣어준다.
-        let listLength = categorizedList.length
-        const listLengthNum = document.querySelector(`.col-number-${category[i]}`)
-        listLengthNum.innerHTML = (listLength)
-        // 컬럼 안에 카드 컨텐츠를 넣는다
-        cardRendering(categorizedList, category[i])
-      }
-
-
-
-
-
-    function plusButtonHandeler(plusButton, plusArea, plusButtonState){
-    plusButton.addEventListener("click", function (event) {
-
-      if (plusButtonState === false) {
-        plusArea.classList.remove("hidden")
-        plusButtonState = true
-      } else {
-        plusArea.classList.add("hidden")
-        plusButtonState = false
-      }
-    });
-    }
-    
-    function cancelButtonHandeler(plusArea,cancelButton, plusButtonState){
-    cancelButton.addEventListener("click", function(event){
-        plusArea.classList.add("hidden")
-        plusButtonState = false
-    })
-    }
-
-    function textInputHandeler(text, addButton){
-      let inputValue = "";
-      let textLength = 0
-
-      function onkeydown(event) {
-        let textLength = 0
-        inputValue = event.target.value;
-        textLength = inputValue.length
-        if (textLength === 0) {
-          addButton.disabled = true
-          } else {
-          addButton.disabled = false
-          }
+      // 컬럼 안을 채워준다
+      for (let i = 0; i < category.length; i++) {
+          // 카테고리에 따라 리스트를 나눈다.
+          let categorizedList = List.filter((list) => list.category === category[i])
+          // 카테고리별 카드 갯수를 정의하고 html에 넣어준다.
+          let listLength = categorizedList.length
+          const listLengthNum = document.querySelector(`.col-number-${category[i]}`)
+          listLengthNum.innerHTML = (listLength)
+          // 컬럼 안에 카드 컨텐츠를 넣는다
+          cardRendering(categorizedList, category[i])
         }
+
+      function plusButtonHandeler(plusButton, plusArea, plusButtonState){
+      plusButton.addEventListener("click", function (event) {
+
+        if (plusButtonState === false) {
+          plusArea.classList.remove("hidden")
+          plusButtonState = true
+        } else {
+          plusArea.classList.add("hidden")
+          plusButtonState = false
+        }
+      });
+      }
+
+      function cancelButtonHandeler(plusArea,cancelButton, plusButtonState){
+      cancelButton.addEventListener("click", function(event){
+          plusArea.classList.add("hidden")
+          plusButtonState = false
+      })
+      }
       
-      text.addEventListener("keydown", onkeydown);
-    }
+      function textInputHandeler(text, addButton){
+        let inputValue = "";
+        let textLength = 0
+
+        function onkeydown(event) {
+          let textLength = 0
+          inputValue = event.target.value;
+          textLength = inputValue.length
+          if (textLength === 0) {
+            addButton.disabled = true
+            } else {
+            addButton.disabled = false
+            }
+          }
+        
+        text.addEventListener("keydown", onkeydown);
+      }
 
 
-    // 새 글 작성 버튼
-    for (let i = 0; i < category.length; i++) {
-      const plusButton = document.querySelector(`.col-header-plus-${category[i]}`)
-      const plusArea = document.querySelector(`.col-content-plus-${category[i]}`)
-      const cancelButton = document.querySelector(`.cancel-btn-${category[i]}`)
-      const text = document.querySelector(`.input-${category[i]}`);
-      const addButton = document.querySelector(`.add-btn-${category[i]}`)
-      let plusButtonState = false
+      // 새 글 작성 버튼
+      for (let i = 0; i < category.length; i++) {
+        const plusButton = document.querySelector(`.col-header-plus-${category[i]}`)
+        const plusArea = document.querySelector(`.col-content-plus-${category[i]}`)
+        const cancelButton = document.querySelector(`.cancel-btn-${category[i]}`)
+        const text = document.querySelector(`.input-${category[i]}`);
+        const addButton = document.querySelector(`.add-btn-${category[i]}`)
+        let plusButtonState = false
 
-      plusButtonHandeler(plusButton, plusArea, plusButtonState)
-      cancelButtonHandeler(plusArea,cancelButton, plusButtonState )
-      textInputHandeler(text, addButton)
-    }
-
-    // 글 삭제 버튼
-    //- function deleteCardHandeler(){
-    //-   const 
-    //- }
-
-    // todo 작성 후, submit 버튼 누르면 디비에 저장됨.
-    //- function submitHandler(event) {
-    //-   let variable = { 
-    //-     pk: willDoList.length,
-    //-     status: 1,
-    //-     title: inputValue,
-    //-     author: "아직 구현 못함",
-    //-     index: willDoList.length
-    //-   }
-    //-   List.push(variable)
-    //- }
-    //- console.log("글 목록",List)
-
-    //- addButton.addEventListener("click", submitHandler);
+        plusButtonHandeler(plusButton, plusArea, plusButtonState)
+        cancelButtonHandeler(plusArea,cancelButton, plusButtonState )
+        textInputHandeler(text, addButton)
+      }
 
 
+      // 글 삭제 버튼
+      function deleteCardHandeler(cardDeleteButton, card, pk){
+        cardDeleteButton.addEventListener("click", function (event) {
+          // 팝업 창 오픈  
+          let url = "/delete/popup";
+          let name = `${pk}`
+          let option = "width = 500, height = 300, top = 100, left = 200, location = no"
+          window.open(url, name, option)
+        });
+      }
+      
 
-    
+      for (let pk=0; pk< List.length; pk++) {
+        const cardDeleteButton = document.querySelector(`#delete-${pk}`)
+        const card = document.querySelector(`.card-${pk}`)
+        deleteCardHandeler(cardDeleteButton, card, pk)
+      }
+      // todo 작성 후, submit 버튼 누르면 디비에 저장됨.
+      //- function submitHandler(event) {
+      //-   let variable = { 
+      //-     pk: willDoList.length,
+      //-     status: 1,
+      //-     title: inputValue,
+      //-     author: "아직 구현 못함",
+      //-     index: willDoList.length
+      //-   }
+      //-   List.push(variable)
+      //- }
+      //- console.log("글 목록",List)
+
+      //- addButton.addEventListener("click", submitHandler);
+
+
+
+      

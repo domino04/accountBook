@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    #pop-up-body.col
+        #pop-up-container.col
+            #pop-up-text 정말로 글을 삭제하시겠습니까?
+            #pop-up-btns.row
+                button#close 취소
+                button#real-delete 확인
+
+    script.
+        // 취소 누르면 팝업창 사라지기
+        const closeButton = document.querySelector("#close")
+            closeButton.addEventListener("click", function (event) {
+            self.close()
+        })
+
+        // 확인 누르면 글 삭제 되고, 팝업창 사라지기
+        const realDeleteButton = document.querySelector("#real-delete")
+            realDeleteButton.addEventListener("click", function (event) {
+            self.close()
+        })
