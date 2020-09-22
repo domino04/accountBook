@@ -143,7 +143,7 @@ p {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 #calander {
@@ -247,10 +247,14 @@ p {
   border-radius: 5px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   margin-bottom: 10px;
-}
-
-#col-list-top {
   justify-content: space-between;
+  align-items: flex-start;
+}
+#col-list-left {
+  align-items: flex-start;
+}
+#col-list-ui {
+  width: 15px;
 }
 
 #col-content-plus {
@@ -350,4 +354,74 @@ button {
   border-style: none;
   border-radius: 10px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* edit 모달 */
+#edit-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+#edit-modal.content {
+  justify-content: flex-start;
+  box-sizing: border-box;
+  width: 60%;
+  height: 50%;
+  position: relative;
+  background-color: white;
+  text-align: center;
+  border-radius: 6px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 6px rgba(0, 0, 0, 0.2);
+}
+#edit-modal-background {
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+#edit-top {
+  width: 100%;
+  height: 60px;
+  padding-left: 5%;
+  padding-right: 5%;
+  box-sizing: border-box;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-style: none none solid none;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+#edit-bottom {
+  width: 100%;
+  padding-top: 20px;
+  padding-left: 5%;
+  padding-right: 5%;
+  box-sizing: border-box;
+  align-items: flex-start;
+}
+
+#edit-bottom-input {
+  width: 100%;
+  margin: 15px 0px;
+}
+
+#edit-input {
+  width: 100%;
+  height: 200px;
+  margin: 0px;
+  padding-top: 10px;
+}
+
+#edit-save {
+  width: 150px;
+  height: 50px;
 }

@@ -1,4 +1,4 @@
-doctype html
+ddoctype html
 html
   head
     title= title
@@ -15,7 +15,19 @@ html
       #add-col-area.col
         #add-col.col
           div + Add column
-    #edit-modal
+    #edit-modal.hidden
+      #edit-modal.content.col
+        #edit-top.row
+          #edit-top-text Edit note
+          #edit-top-cancel 
+            button#edit-cancel-btn x
+        #edit-bottom.col
+          #edit-bottom-text Note
+          #edit-bottom-input
+            input#edit-input
+          #edit-button
+            button#edit-save Save note
+      #edit-modal-background
 
 
     script.
@@ -95,21 +107,19 @@ html
 
       function cardRendering(list, category) {
         let card = list.map(content => `
-          <div id="col-list-content" class="col card-${content.pk}">
-          <div id="col-list-top" class="row">
-            <div id="col-list-top-left" class="row">
+          <div id="col-list-content" class="row card-${content.pk}">
+            <div id="col-list-left" class="row">
               <div id="col-list-ui">*</div>
-              <div id="col-list-title">${content.title}</div>
+              <div id="col-list-left-left">
+                <div id="col-list-title">${content.title}</div>
+                <div>Added by ${content.author}</div>
+              </div>
             </div>
-            <div id="col-list-top-right">
+            <div id="col-list-right>
               <div id="col-list-delete">
                 <button id="delete-${content.pk}"> x </button>
               </div>
             </div>
-          </div>
-          <div id="col-list-bottom">
-            <div>Added by ${content.author}</div>
-          </div>
           </div>
         `)
         let cardDom = card.join("")
@@ -196,12 +206,29 @@ html
           window.open(url, name, option)
         });
       }
+
+      const editModal = document.querySelector("#edit-modal.hidden")
+      const editModalCancel = document.querySelector("#edit-cancel-btn")
+      const editInput = document.querySelector("#edit-input")
+
+      editModalCancel.addEventListener("click", function(event){
+        editModal.classList.add("hidden")
+      })
+      // 카드 더블클릭시 수정 가능
+      function editCardHandeler(card, pk, title){
+        card.addEventListener("dblclick", function(event) {
+          editModal.classList.remove("hidden")
+          editInput.value = `${title}`
+        })
+      }
       
 
       for (let pk=0; pk< List.length; pk++) {
         const cardDeleteButton = document.querySelector(`#delete-${pk}`)
         const card = document.querySelector(`.card-${pk}`)
+        let title = List.find((list) => list.pk === pk)
         deleteCardHandeler(cardDeleteButton, card, pk)
+        editCardHandeler(card, pk, title.title)
       }
       // todo 작성 후, submit 버튼 누르면 디비에 저장됨.
       //- function submitHandler(event) {
