@@ -2,10 +2,14 @@ extends layout
 
 block content
   #container.row
+    #col-container.row
+    #add-col 
+      p +
+
 
   script.
     // 더미 자료
-    const category = ["willDo", "doing", "done"]
+    const category = ["willDo", "doing", "done", "new"]
     const List = [
       {
         pk: 1,
@@ -44,12 +48,12 @@ block content
 
 
     //받아온 리스트 매핑으로 html 내보내기
-    function colRendering(category, listLength) {
+    function colRendering(category) {
       const col = category.map(onecol => `
         <div id=${onecol} class="main-box col">
         <div id="col-header" class="row">
           <div id="col-header-left" class="row">
-            <div id="col-number">${listLength}</div>
+            <div id="col-number" class="col-number-${onecol}"></div>
             <div id="col-title">${onecol}</div>
           </div>
           <div id="col-header-right" class="row">
@@ -63,9 +67,9 @@ block content
         </div>
         <div id="col-content-plus" class="row hidden col-content-plus-${onecol}">
           <form action="">
-            <input type="text" placeholder="Enter a note"/>
+            <input class="input-${onecol}" type="text" placeholder="Enter a note"/>
             <div id="col-content-plus-btn" class="row">
-              <button id="add-btn" disabled>Add</button>
+              <button id="add-btn" class="add-btn-${onecol}" disabled>Add</button>
               <button id="cancel-btn" class="cancel-btn-${onecol}">Cancel</button> 
             </div>
           </form>
@@ -74,9 +78,9 @@ block content
         </div>
         </div>
         `)
-      console.log('길이', listLength)
+      
       let colDom = col.join("")
-      document.getElementById("container").innerHTML = colDom
+      document.getElementById("col-container").innerHTML = colDom
     }
 
 
@@ -89,7 +93,7 @@ block content
             <div id="col-list-title">${content.title}</div>
           </div>
           <div id="col-list-top-right">
-            <div id="col-list-delete">
+            <div id="col-list-delete delete-${content.pk}">
               <button> x </button>
             </div>
           </div>
@@ -104,18 +108,18 @@ block content
     } 
 
 
-    for (let i = 0; i < category.length; i++) {
-        let categorizedList = List.filter((list) => list.category === category[i])
-        let listLength = categorizedList.length
-        // 카테고리에 맞는 컬럼을 만든다
-        colRendering(category, listLength)
-      }
+    // 카테고리에 맞는 컬럼을 만든다
+    colRendering(category)
 
+    // 컬럼 안을 채워준다
     for (let i = 0; i < category.length; i++) {
         // 카테고리에 따라 리스트를 나눈다.
         let categorizedList = List.filter((list) => list.category === category[i])
-
-        // 컬럼 안에 컨텐츠를 넣는다
+        // 카테고리별 카드 갯수를 정의하고 html에 넣어준다.
+        let listLength = categorizedList.length
+        const listLengthNum = document.querySelector(`.col-number-${category[i]}`)
+        listLengthNum.innerHTML = (listLength)
+        // 컬럼 안에 카드 컨텐츠를 넣는다
         cardRendering(categorizedList, category[i])
       }
 
@@ -135,32 +139,30 @@ block content
       }
     });
     }
+    
     function cancelButtonHandeler(plusArea,cancelButton, plusButtonState){
     cancelButton.addEventListener("click", function(event){
         plusArea.classList.add("hidden")
         plusButtonState = false
     })
     }
-    function textInputHandeler(){
-    //새글 작성 글자수
-    const text = document.querySelector("input");
-    const addButton = document.querySelector("#add-btn")
 
-    let inputValue = "";
-    let textLength = 0
-
-    function onkeydown(event) {
+    function textInputHandeler(text, addButton){
+      let inputValue = "";
       let textLength = 0
-      inputValue = event.target.value;
-      textLength = inputValue.length
-      if (textLength === 0) {
-        addButton.disabled = true
-        } else {
-        addButton.disabled = false
+
+      function onkeydown(event) {
+        let textLength = 0
+        inputValue = event.target.value;
+        textLength = inputValue.length
+        if (textLength === 0) {
+          addButton.disabled = true
+          } else {
+          addButton.disabled = false
+          }
         }
-      }
-    
-    text.addEventListener("keydown", onkeydown);
+      
+      text.addEventListener("keydown", onkeydown);
     }
 
 
@@ -169,14 +171,19 @@ block content
       const plusButton = document.querySelector(`.col-header-plus-${category[i]}`)
       const plusArea = document.querySelector(`.col-content-plus-${category[i]}`)
       const cancelButton = document.querySelector(`.cancel-btn-${category[i]}`)
+      const text = document.querySelector(`.input-${category[i]}`);
+      const addButton = document.querySelector(`.add-btn-${category[i]}`)
       let plusButtonState = false
 
-      
       plusButtonHandeler(plusButton, plusArea, plusButtonState)
       cancelButtonHandeler(plusArea,cancelButton, plusButtonState )
-      textInputHandeler()
+      textInputHandeler(text, addButton)
     }
 
+    // 글 삭제 버튼
+    //- function deleteCardHandeler(){
+    //-   const 
+    //- }
 
     // todo 작성 후, submit 버튼 누르면 디비에 저장됨.
     //- function submitHandler(event) {
