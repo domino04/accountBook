@@ -32,6 +32,22 @@ html
             button#edit-save Save note
       #edit-modal-background
 
+    #edit-col-modal.hidden
+      #edit-col-modal.content.col
+        #edit-col-top.row
+          #edit-col-top-text Edit Column
+          #edit-col-top-cancel 
+            button#edit-col-cancel-btn.deleteeee
+              span.material-icons close
+            
+        #edit-col-bottom.col
+          #edit-col-bottom-text Column Name
+          #edit-col-bottom-input
+            input#edit-col-input
+          #edit-col-button
+            button#edit-col-save Update Column 
+      #edit-col-modal-background
+
 
     script.
       const category = ["willDo", "doing", "done", "new"];
@@ -78,7 +94,7 @@ html
           <div id="col-header" class="row">
             <div id="col-header-left" class="row">
               <div id="col-number" class="col-number-${onecol}"></div>
-              <div id="col-title">${onecol}</div>
+              <div id="col-title" class="col-title-${onecol}">${onecol}</div>
             </div>
             <div id="col-header-right" class="row">
               <div id="col-header-plus" class="col-header-plus-${onecol}">
@@ -210,6 +226,8 @@ html
         });
       }
 
+
+      // 카드 더블 클릭시 수정 모달 창 띄우기
       const editModal = document.querySelector("#edit-modal.hidden")
       const editModalCancel = document.querySelector("#edit-cancel-btn")
       const editInput = document.querySelector("#edit-input")
@@ -217,7 +235,7 @@ html
       editModalCancel.addEventListener("click", function(event){
         editModal.classList.add("hidden")
       })
-      // 카드 더블클릭시 수정 가능
+      
       function editCardHandeler(card, pk, title){
         card.addEventListener("dblclick", function(event) {
           editModal.classList.remove("hidden")
@@ -225,7 +243,6 @@ html
         })
       }
       
-
       for (let pk=0; pk< List.length; pk++) {
         const cardDeleteButton = document.querySelector(`#delete-${pk}`)
         const card = document.querySelector(`.card-${pk}`)
@@ -233,6 +250,30 @@ html
         deleteCardHandeler(cardDeleteButton, card, pk)
         editCardHandeler(card, pk, title.title)
       }
+
+
+      // 카데고리 이름 더블클릭시 수정 가능
+      const editColModal = document.querySelector("#edit-col-modal.hidden")
+      const editColModalCancel = document.querySelector("#edit-col-cancel-btn")
+      const editColInput =document.querySelector("#edit-col-input")
+
+      editColModalCancel.addEventListener("click", function(event){
+        editColModal.classList.add("hidden")
+      })
+      
+      function editColHandeler(colTitle, title){
+        colTitle.addEventListener("dblclick", function(event) {
+          editColModal.classList.remove("hidden")
+          editColInput.value = `${title}`
+        })
+      }
+
+      for (let i = 0; i< category.length; i++) {
+        const colTitle = document.querySelector(`.col-title-${category[i]}`)
+        let title = category[i]
+        editColHandeler(colTitle, title)
+      }
+
       // todo 작성 후, submit 버튼 누르면 디비에 저장됨.
       //- function submitHandler(event) {
       //-   let variable = { 
