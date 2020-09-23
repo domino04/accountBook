@@ -222,7 +222,7 @@ p {
   width: 90%;
 }
 
-#col-number {
+.col-number {
   border-radius: 100%;
   width: 20px;
   height: 20px;
@@ -233,13 +233,13 @@ p {
   line-height: 1.5;
 }
 
-#col-list {
+.col-list {
   margin-top: 20px;
   align-items: center;
   width: 90%;
 }
 
-#col-list-content {
+.col-list-content {
   background-color: white;
   padding: 15px;
   width: 100%;
@@ -257,7 +257,7 @@ p {
   width: 18px;
 }
 
-#col-content-plus {
+.col-content-plus {
   width: 100%;
   justify-content: center;
 }
@@ -299,14 +299,14 @@ button:hover {
 #col-content-plus-btn {
   justify-content: space-between;
 }
-#add-btn {
+.add-btn {
   width: 48%;
   height: 30px;
   /* background-color: green;
   color: white; */
 }
 
-#cancel-btn {
+.cancel-btn {
   height: 30px;
   width: 48%;
 }

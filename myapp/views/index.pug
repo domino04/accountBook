@@ -93,11 +93,11 @@ html
           <div id=${onecol} class="main-box col">
           <div id="col-header" class="row">
             <div id="col-header-left" class="row">
-              <div id="col-number" class="col-number-${onecol}"></div>
-              <div id="col-title" class="col-title-${onecol}">${onecol}</div>
+              <div id="col-number-${onecol}" class="col-number"></div>
+              <div id="col-title-${onecol}" class="col-title">${onecol}</div>
             </div>
             <div id="col-header-right" class="row">
-              <div id="col-header-plus" class="col-header-plus-${onecol}">
+              <div id="col-header-plus-${onecol}" class="col-header-plus">
                 <button class="col-content-plus-btn"><span class="material-icons"> add </span></button>
               </div>
               <div id="col-header-delete">
@@ -105,16 +105,16 @@ html
               </div>
             </div>
           </div>
-          <div id="col-content-plus" class="row hidden col-content-plus-${onecol}">
+          <div id="col-content-plus-${onecol}" class="row hidden col-content-plus">
             <form action="/todo" method="post">
-              <input class="input-${onecol}" type="text" placeholder="Enter a note"/>
+              <input id="input-${onecol}" type="text" placeholder="Enter a note"/>
               <div id="col-content-plus-btn" class="row">
-                <button id="add-btn" class="add-btn-${onecol}" disabled>Add</button>
-                <button id="cancel-btn" class="cancel-btn-${onecol}">Cancel</button> 
+                <button id="add-btn-${onecol}" class="add-btn" disabled>Add</button>
+                <button id="cancel-btn-${onecol}" class="cancel-btn">Cancel</button> 
               </div>
             </form>
           </div>
-          <div id="col-list" class="col-list-${onecol}">
+          <div id="col-list-${onecol}" class="col-list">
           </div>
           </div>
           `)
@@ -126,7 +126,7 @@ html
 
       function cardRendering(list, category) {
         let card = list.map(content => `
-          <div id="col-list-content" class="row card-${content.pk}">
+          <div id="card-${content.pk}" class="row col-list-content">
             <div id="col-list-left" class="row">
               <div id="col-list-ui"><span class="material-icons-outlined"> article </span></div>
               <div id="col-list-left-left">
@@ -142,7 +142,7 @@ html
           </div>
         `)
         let cardDom = card.join("")
-        document.querySelector(`.col-list-${category}`).innerHTML= cardDom
+        document.getElementById(`col-list-${category}`).innerHTML= cardDom
       } 
 
 
@@ -155,7 +155,7 @@ html
           let categorizedList = List.filter((list) => list.category === category[i])
           // 카테고리별 카드 갯수를 정의하고 html에 넣어준다.
           let listLength = categorizedList.length
-          const listLengthNum = document.querySelector(`.col-number-${category[i]}`)
+          const listLengthNum = document.querySelector(`#col-number-${category[i]}`)
           listLengthNum.innerHTML = (listLength)
           // 컬럼 안에 카드 컨텐츠를 넣는다
           cardRendering(categorizedList, category[i])
@@ -202,11 +202,11 @@ html
 
       // 새 글 작성 버튼
       for (let i = 0; i < category.length; i++) {
-        const plusButton = document.querySelector(`.col-header-plus-${category[i]}`)
-        const plusArea = document.querySelector(`.col-content-plus-${category[i]}`)
-        const cancelButton = document.querySelector(`.cancel-btn-${category[i]}`)
-        const text = document.querySelector(`.input-${category[i]}`);
-        const addButton = document.querySelector(`.add-btn-${category[i]}`)
+        const plusButton = document.querySelector(`#col-header-plus-${category[i]}`)
+        const plusArea = document.querySelector(`#col-content-plus-${category[i]}`)
+        const cancelButton = document.querySelector(`#cancel-btn-${category[i]}`)
+        const text = document.querySelector(`#input-${category[i]}`);
+        const addButton = document.querySelector(`#add-btn-${category[i]}`)
         let plusButtonState = false
 
         plusButtonHandeler(plusButton, plusArea, plusButtonState)
@@ -245,7 +245,7 @@ html
       
       for (let pk=0; pk< List.length; pk++) {
         const cardDeleteButton = document.querySelector(`#delete-${pk}`)
-        const card = document.querySelector(`.card-${pk}`)
+        const card = document.querySelector(`#card-${pk}`)
         let title = List.find((list) => list.pk === pk)
         deleteCardHandeler(cardDeleteButton, card, pk)
         editCardHandeler(card, pk, title.title)
@@ -269,7 +269,7 @@ html
       }
 
       for (let i = 0; i< category.length; i++) {
-        const colTitle = document.querySelector(`.col-title-${category[i]}`)
+        const colTitle = document.querySelector(`#col-title-${category[i]}`)
         let title = category[i]
         editColHandeler(colTitle, title)
       }
