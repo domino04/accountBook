@@ -281,11 +281,12 @@ form {
   margin: 15px;
 }
 
-input {
+textarea {
   padding: 0px;
   width: 100%;
   margin-bottom: 10px;
   height: 40px;
+  resize: vertical;
 }
 
 button {

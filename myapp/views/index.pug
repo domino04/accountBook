@@ -107,7 +107,8 @@ html
           </div>
           <div id="col-content-plus-${onecol}" class="row hidden col-content-plus">
             <form action="/todo" method="post">
-              <input id="input-${onecol}" type="text" placeholder="Enter a note"/>
+              <textarea id="input-${onecol}" placeholder="Enter a note">
+              </textarea>
               <div id="col-content-plus-btn" class="row">
                 <button id="add-btn-${onecol}" class="add-btn" disabled>Add</button>
                 <button id="cancel-btn-${onecol}" class="cancel-btn">Cancel</button> 
@@ -155,7 +156,7 @@ html
           let categorizedList = List.filter((list) => list.category === category[i])
           // 카테고리별 카드 갯수를 정의하고 html에 넣어준다.
           let listLength = categorizedList.length
-          const listLengthNum = document.querySelector(`#col-number-${category[i]}`)
+          const listLengthNum = document.getElementById(`col-number-${category[i]}`)
           listLengthNum.innerHTML = (listLength)
           // 컬럼 안에 카드 컨텐츠를 넣는다
           cardRendering(categorizedList, category[i])
@@ -202,11 +203,11 @@ html
 
       // 새 글 작성 버튼
       for (let i = 0; i < category.length; i++) {
-        const plusButton = document.querySelector(`#col-header-plus-${category[i]}`)
-        const plusArea = document.querySelector(`#col-content-plus-${category[i]}`)
-        const cancelButton = document.querySelector(`#cancel-btn-${category[i]}`)
-        const text = document.querySelector(`#input-${category[i]}`);
-        const addButton = document.querySelector(`#add-btn-${category[i]}`)
+        const plusButton = document.getElementById(`col-header-plus-${category[i]}`)
+        const plusArea = document.getElementById(`col-content-plus-${category[i]}`)
+        const cancelButton = document.getElementById(`cancel-btn-${category[i]}`)
+        const text = document.getElementById(`input-${category[i]}`);
+        const addButton = document.getElementById(`add-btn-${category[i]}`)
         let plusButtonState = false
 
         plusButtonHandeler(plusButton, plusArea, plusButtonState)
@@ -228,9 +229,9 @@ html
 
 
       // 카드 더블 클릭시 수정 모달 창 띄우기
-      const editModal = document.querySelector("#edit-modal.hidden")
-      const editModalCancel = document.querySelector("#edit-cancel-btn")
-      const editInput = document.querySelector("#edit-input")
+      const editModal = document.getElementById("edit-modal.hidden")
+      const editModalCancel = document.getElementById("edit-cancel-btn")
+      const editInput = document.getElementById("edit-input")
 
       editModalCancel.addEventListener("click", function(event){
         editModal.classList.add("hidden")
@@ -244,8 +245,8 @@ html
       }
       
       for (let pk=0; pk< List.length; pk++) {
-        const cardDeleteButton = document.querySelector(`#delete-${pk}`)
-        const card = document.querySelector(`#card-${pk}`)
+        const cardDeleteButton = document.getElementById(`delete-${pk}`)
+        const card = document.getElementById(`card-${pk}`)
         let title = List.find((list) => list.pk === pk)
         deleteCardHandeler(cardDeleteButton, card, pk)
         editCardHandeler(card, pk, title.title)
@@ -253,9 +254,9 @@ html
 
 
       // 카데고리 이름 더블클릭시 수정 가능
-      const editColModal = document.querySelector("#edit-col-modal.hidden")
-      const editColModalCancel = document.querySelector("#edit-col-cancel-btn")
-      const editColInput =document.querySelector("#edit-col-input")
+      const editColModal = document.getElementById("edit-col-modal.hidden")
+      const editColModalCancel = document.getElementById("edit-col-cancel-btn")
+      const editColInput =document.getElementById("edit-col-input")
 
       editColModalCancel.addEventListener("click", function(event){
         editColModal.classList.add("hidden")
@@ -269,7 +270,7 @@ html
       }
 
       for (let i = 0; i< category.length; i++) {
-        const colTitle = document.querySelector(`#col-title-${category[i]}`)
+        const colTitle = document.getElementById(`col-title-${category[i]}`)
         let title = category[i]
         editColHandeler(colTitle, title)
       }
