@@ -5,72 +5,26 @@ var router = express.Router();
 
 let isAuth = false;
 
-const AllCategory = ["willDo", "doing", "done", "new"];
-const AllList = [
-  {
-    pk: 0,
-    status: 1,
-    category: "willDo",
-    title: "에벱뻽ㅂ",
-    author: "nigayo",
-    index: 1,
-  },
-  {
-    pk: 1,
-    status: 1,
-    category: "willDo",
-    title: "멋사 과제",
-    author: "이소영",
-    index: 2,
-  },
-  {
-    pk: 2,
-    status: 2,
-    category: "doing",
-    title: "저녁먹기",
-    author: "이한주",
-    index: 3,
-  },
-
-  {
-    pk: 3,
-    status: 3,
-    category: "done",
-    title: "점심먹기",
-    author: "강단비",
-    index: 4,
-  },
-];
-
 router.get("/", function (req, res, next) {
   console.log("쿠키s아이디", req.cookies.sid);
   if (!req.cookies.sid) {
-    res.render("index", {
-      title: ":::TODOLIST:::",
-      AllCategory: AllCategory,
-      AllList: AllList,
-    });
-  } else {
-    isAuth = true;
-    res.render("auth_index", {
-      title: ":::TODOLIST:::",
-      AllCategory: AllCategory,
-      AllList: AllList,
-    });
+    res.render("index.html");
   }
 });
 
 // 글 저장하기
-router.post("/", function (req, res, next) {
+router.post("/list", function (req, res, next) {
   // 디비에 글 저장한다
   // 인덱스 페이지로 리렌더링
+  console.log("저장", req.body);
+  res.redirect("/");
 });
 
 // 글 삭제 팝업 띄우기
 router.get("/delete/popup", function (req, res, next) {
   console.log("팝업에 넣을 pk 정보", req);
   // 팝업을 띄운다.
-  res.render("popUp", { content: "팝업입니다." });
+  // res.render("popUp", { content: "팝업입니다." });
 });
 // 글 삭제하기
 router.post("/delete", function (req, res, next) {

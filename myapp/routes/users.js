@@ -17,12 +17,12 @@ var generateRandom = function (min, max) {
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
-  res.render("register", { title: "register" });
+  res.render("register.html", { title: "register" });
 });
 
 // 회원가입 페이지 띄우기
 router.get("/", function (req, res, next) {
-  res.render("register", { title: "register" });
+  res.render("register.html", { title: "register" });
 });
 
 // 아이디 패스워드 저장해주기
@@ -39,13 +39,13 @@ router.post("/", function (req, res, next) {
     dbForUserNames.push(username);
     res.redirect("/");
   } else {
-    res.render("error", { message: "이미 존재하는 아이디입니다." });
+    res.render("error.html", { message: "이미 존재하는 아이디입니다." });
   }
 });
 
 // 로그인 페이지 띄우기
 router.get("/login", function (req, res, next) {
-  res.render("login", { title: "login" });
+  res.render("login.html", { title: "login" });
 });
 
 var login = false;
@@ -70,7 +70,9 @@ router.post("/login", function (req, res, next) {
     res.cookie("sid", randomKey);
     res.redirect("/"); // res는 하나만 쓸 수 있다~!~! 맨 위에있는 res.만 먹힘
   } else {
-    res.render("error", { message: "아이디 패스워드가 일치하지 않습니다." });
+    res.render("error.html", {
+      message: "아이디 패스워드가 일치하지 않습니다.",
+    });
   }
 });
 

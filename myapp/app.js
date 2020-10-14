@@ -8,11 +8,12 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
 var app = express();
-var db = require("./routes/db");
+var ejs = require("ejs");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
+app.set("view engine", "html");
+app.engine("html", ejs.renderFile);
 
 app.use(logger("dev")); // 환경변수 개발자 모드로 세팅
 app.use(express.json());
